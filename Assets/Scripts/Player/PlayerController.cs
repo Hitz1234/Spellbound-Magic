@@ -10,19 +10,27 @@ public class PlayerController : MonoBehaviour
     private float _vertical;
     private float _horizontal;
 
-    public Rigidbody2D PlayerRigidbody { get => _playerRigidbody; }
-
     private void Start()
     {
         _playerRigidbody = GetComponent<Rigidbody2D>();
         _animator = GetComponentInChildren<Animator>();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
-        _vertical = Input.GetAxis("Vertical") * moveSpeed;
-        _horizontal = Input.GetAxis("Horizontal") * moveSpeed;
+        MovementLogic();
+    }
 
+    private void MovementLogic()
+    {
+        _vertical = Input.GetAxis("Vertical");
+        _horizontal = Input.GetAxis("Horizontal");
+        _playerRigidbody.velocity = new Vector2(_horizontal, _vertical).normalized * moveSpeed;
+        WalkAnimation();
+    }
+
+    private void WalkAnimation()
+    {
         if (_vertical != 0 || _horizontal != 0)
         {
             _animator.SetBool("isWalking", true);
@@ -31,9 +39,5 @@ public class PlayerController : MonoBehaviour
         {
             _animator.SetBool("isWalking", false);
         }
-    }
-    private void FixedUpdate()
-    {
-        _playerRigidbody.velocity = new Vector2(_horizontal, _vertical);      
     }
 }
