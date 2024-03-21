@@ -1,45 +1,49 @@
+using Pooling;
 using UnityEngine;
 
-public class PlayerAttack : MonoBehaviour
+namespace Player
 {
-    private SpawnerBullet _spawnerBullet;
-
-    private float _offset = 90f;
-    private float _timeBtwShots;
-    private float _startTimeBtwShots = 0.25f;
-
-    private void Start()
-    {  
-        _spawnerBullet = FindObjectOfType<SpawnerBullet>();
-        _timeBtwShots = _startTimeBtwShots;
-    }
-
-    private void Update()
+    public class PlayerAttack : MonoBehaviour
     {
-        if (_timeBtwShots <= 0f)
+        private SpawnerBullet _spawnerBullet;
+
+        private float _offset = 90f;
+        private float _timeBtwShots;
+        private float _startTimeBtwShots = 0.25f;
+
+        private void Start()
+        {  
+            _spawnerBullet = FindObjectOfType<SpawnerBullet>();
+            _timeBtwShots = _startTimeBtwShots;
+        }
+
+        private void Update()
         {
-            if (Input.GetMouseButtonDown(0))
+            if (_timeBtwShots <= 0f)
             {
-                _spawnerBullet.Shoot();
-                _timeBtwShots = _startTimeBtwShots;
+                if (Input.GetMouseButtonDown(0))
+                {
+                    _spawnerBullet.Shoot();
+                    _timeBtwShots = _startTimeBtwShots;
+                }
+            }
+            else
+            {
+                _timeBtwShots -= Time.deltaTime;
             }
         }
-        else
+
+        private void FixedUpdate()
         {
-            _timeBtwShots -= Time.deltaTime;
+            AimRotation();
         }
-    }
 
-    private void FixedUpdate()
-    {
-        AimRotation();
-    }
-
-    private void AimRotation()
-    {
-        Vector3 aimDirection = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
-        aimDirection.Normalize();
-        float aimCorner = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg - _offset;
-        transform.rotation = Quaternion.Euler(0f, 0f, aimCorner);
+        private void AimRotation()
+        {
+            Vector3 aimDirection = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
+            aimDirection.Normalize();
+            float aimCorner = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg - _offset;
+            transform.rotation = Quaternion.Euler(0f, 0f, aimCorner);
+        }
     }
 }

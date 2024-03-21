@@ -1,29 +1,32 @@
 using UnityEngine;
 
-public class EnemyHealth : MonoBehaviour
+namespace Enemies
 {
-    [SerializeField] private float totalHealth = 100f;
-    [SerializeField] private Animator animator;
-
-    private float _health;
-
-    private void Start()
+    public class EnemyHealth : MonoBehaviour
     {
-        _health = totalHealth;
-    }
+        [SerializeField] private float totalHealth = 100f;
+        [SerializeField] private Animator animator;
 
-    public void ReduceHealth(float damage)
-    {
-        _health -= damage;
-        animator.SetTrigger("takeDamage");
-        if(_health <= 0 )
+        private float _health;
+
+        private void Start()
         {
-            Die();
+            _health = totalHealth;
         }
-    }
 
-    private void Die()
-    {
-        gameObject.SetActive(false);
+        public void ReduceHealth(float damage)
+        {
+            _health -= damage;
+            animator.SetTrigger("takeDamage");
+            if(_health <= 0 )
+            {
+                Die();
+            }
+        }
+
+        private void Die()
+        {
+            gameObject.SetActive(false);
+        }
     }
 }

@@ -1,17 +1,20 @@
 using UnityEngine;
 
-public class ObjectReturn : MonoBehaviour
+namespace Pooling
 {
-    private ObjectPool objectPool;
-
-    private void Start()
+    public class ObjectReturn : MonoBehaviour
     {
-        objectPool = FindObjectOfType<ObjectPool>();
-    }
+        private ObjectPool objectPool;
 
-    private void OnDisable()
-    {
-        if (objectPool != null)
-            objectPool.ReturnGameObject(this.gameObject);
+        private void Start()
+        {
+            objectPool = FindObjectOfType<ObjectPool>();
+        }
+
+        private void OnDisable()
+        {
+            if (objectPool != null)
+                objectPool.ReturnGameObject(this.gameObject);
+        }
     }
 }

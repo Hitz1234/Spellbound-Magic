@@ -1,39 +1,42 @@
 using UnityEngine;
 
-public class EnemyController : MonoBehaviour
+namespace Enemies
 {
-    [SerializeField] private float enemyMoveSpeed = 2f;
-
-    private Rigidbody2D _enemyRB;
-    private Transform _enemyTarget;
-    private Vector2 _moveDirection;
-
-    private void Awake()
+    public class EnemyController : MonoBehaviour
     {
-        _enemyRB = GetComponent<Rigidbody2D>();
-    }
+        [SerializeField] private float enemyMoveSpeed = 2f;
 
-    private void Start()
-    {
-        _enemyTarget = GameObject.Find("Player").transform;
-    }
+        private Rigidbody2D _enemyRB;
+        private Transform _enemyTarget;
+        private Vector2 _moveDirection;
 
-    private void Update()
-    {
-        if (_enemyTarget)
+        private void Awake()
         {
-            Vector3 direction = (_enemyTarget.position - transform.position).normalized;
-            //float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90f;
-            //_enemyRB.rotation = angle;
-            _moveDirection = direction;
+            _enemyRB = GetComponent<Rigidbody2D>();
         }
-    }
 
-    private void FixedUpdate()
-    {
-        if (_enemyTarget)
+        private void Start()
         {
-            _enemyRB.velocity = new Vector2(_moveDirection.x, _moveDirection.y) * enemyMoveSpeed;
+            _enemyTarget = GameObject.Find("Player").transform;
+        }
+
+        private void Update()
+        {
+            if (_enemyTarget)
+            {
+                Vector3 direction = (_enemyTarget.position - transform.position).normalized;
+                //float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90f;
+                //_enemyRB.rotation = angle;
+                _moveDirection = direction;
+            }
+        }
+
+        private void FixedUpdate()
+        {
+            if (_enemyTarget)
+            {
+                _enemyRB.velocity = new Vector2(_moveDirection.x, _moveDirection.y) * enemyMoveSpeed;
+            }
         }
     }
 }

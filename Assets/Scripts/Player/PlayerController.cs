@@ -1,43 +1,46 @@
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+namespace Player
 {
-    [SerializeField] private float moveSpeed = 2.5f;
-
-    private Rigidbody2D _playerRigidbody;
-    private Animator _animator;
-
-    private float _vertical;
-    private float _horizontal;
-
-    private void Start()
+    public class PlayerController : MonoBehaviour
     {
-        _playerRigidbody = GetComponent<Rigidbody2D>();
-        _animator = GetComponentInChildren<Animator>();
-    }
+        [SerializeField] private float moveSpeed = 2.5f;
 
-    private void FixedUpdate()
-    {
-        MovementLogic();
-    }
+        private Rigidbody2D _playerRigidbody;
+        private Animator _animator;
 
-    private void MovementLogic()
-    {
-        _vertical = Input.GetAxis("Vertical");
-        _horizontal = Input.GetAxis("Horizontal");
-        _playerRigidbody.velocity = new Vector2(_horizontal, _vertical).normalized * moveSpeed;
-        WalkAnimation();
-    }
+        private float _vertical;
+        private float _horizontal;
 
-    private void WalkAnimation()
-    {
-        if (_vertical != 0 || _horizontal != 0)
+        private void Start()
         {
-            _animator.SetBool("isWalking", true);
+            _playerRigidbody = GetComponent<Rigidbody2D>();
+            _animator = GetComponentInChildren<Animator>();
         }
-        else
+
+        private void FixedUpdate()
         {
-            _animator.SetBool("isWalking", false);
+            MovementLogic();
+        }
+
+        private void MovementLogic()
+        {
+            _vertical = Input.GetAxis("Vertical");
+            _horizontal = Input.GetAxis("Horizontal");
+            _playerRigidbody.velocity = new Vector2(_horizontal, _vertical).normalized * moveSpeed;
+            WalkAnimation();
+        }
+
+        private void WalkAnimation()
+        {
+            if (_vertical != 0 || _horizontal != 0)
+            {
+                _animator.SetBool("isWalking", true);
+            }
+            else
+            {
+                _animator.SetBool("isWalking", false);
+            }
         }
     }
 }

@@ -1,49 +1,52 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
-public class PlayerHealth : MonoBehaviour
+namespace Player
 {
-    [SerializeField] private float totalPlayerHealth = 100f;
-    [SerializeField] private TextMeshProUGUI healthPlayerTextBar;
-    [SerializeField] private Image frontHealthBar;
-    [SerializeField] private GameObject gameOverCanvas;
-
-    private float _currentPlayerHealth;
-
-    public float TotalHealth { get => totalPlayerHealth; }
-
-    private void Start()
+    public class PlayerHealth : MonoBehaviour
     {
-        _currentPlayerHealth = totalPlayerHealth;
-        HealthUpdate();
-        
-    }
+        [SerializeField] private float totalPlayerHealth = 100f;
+        [SerializeField] private TextMeshProUGUI healthPlayerTextBar;
+        [SerializeField] private Image frontHealthBar;
+        [SerializeField] private GameObject gameOverCanvas;
 
-    private void Update()
-    {
-        HealthUpdate();
-    }
+        private float _currentPlayerHealth;
 
-    public void ReduceHealth(float takingDamage)
-    {
-        _currentPlayerHealth -= takingDamage;
-        HealthUpdate();
-        if(_currentPlayerHealth <= 0)
+        public float TotalHealth { get => totalPlayerHealth; }
+
+        private void Start()
         {
-            Die();
+            _currentPlayerHealth = totalPlayerHealth;
+            HealthUpdate();
+        
         }
-    }
 
-    private void HealthUpdate()
-    {
-        frontHealthBar.fillAmount = _currentPlayerHealth / totalPlayerHealth;
-        healthPlayerTextBar.text = Mathf.Round(_currentPlayerHealth) + "/" + Mathf.Round(totalPlayerHealth);
-    }
+        private void Update()
+        {
+            HealthUpdate();
+        }
 
-    private void Die()
-    {
-        gameObject.SetActive(false);
-        gameOverCanvas.SetActive(true);
+        public void ReduceHealth(float takingDamage)
+        {
+            _currentPlayerHealth -= takingDamage;
+            HealthUpdate();
+            if(_currentPlayerHealth <= 0)
+            {
+                Die();
+            }
+        }
+
+        private void HealthUpdate()
+        {
+            frontHealthBar.fillAmount = _currentPlayerHealth / totalPlayerHealth;
+            healthPlayerTextBar.text = Mathf.Round(_currentPlayerHealth) + "/" + Mathf.Round(totalPlayerHealth);
+        }
+
+        private void Die()
+        {
+            gameObject.SetActive(false);
+            gameOverCanvas.SetActive(true);
+        }
     }
 }

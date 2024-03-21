@@ -1,21 +1,24 @@
 using UnityEngine;
 
-public class SpawnerBullet : MonoBehaviour
+namespace Pooling
 {
-    [SerializeField] private GameObject prefab;
-    [SerializeField] private Transform firePoint;
-
-    private ObjectPool _objectPool;
-
-    private void Start()
+    public class SpawnerBullet : MonoBehaviour
     {
-        _objectPool = FindObjectOfType<ObjectPool>();
-    }
+        [SerializeField] private GameObject prefab;
+        [SerializeField] private Transform firePoint;
 
-    public void Shoot()
-    {
-        GameObject newBullet = _objectPool.GetObject(prefab);
-        newBullet.transform.position = firePoint.position;
-        newBullet.transform.rotation = firePoint.rotation;
+        private ObjectPool _objectPool;
+
+        private void Start()
+        {
+            _objectPool = FindObjectOfType<ObjectPool>();
+        }
+
+        public void Shoot()
+        {
+            GameObject newBullet = _objectPool.GetObject(prefab);
+            newBullet.transform.position = firePoint.position;
+            newBullet.transform.rotation = firePoint.rotation;
+        }
     }
 }
