@@ -6,26 +6,31 @@ namespace Player
     public class PlayerAttack : MonoBehaviour
     {
         private SpawnerBullet _spawnerBullet;
-
-        private float _offset = 90f;
+        
         private float _timeBtwShots;
-        private float _startTimeBtwShots = 0.25f;
+        [SerializeField]private new Camera camera;
+        private bool isCameraNull;
+
+        private const float Offset = 90f;
+        private const float StartTimeBtwShots = 0.25f;
 
         private void Start()
-        {  
+        {
+            isCameraNull = camera == null;
+            camera = Camera.main;
+
             _spawnerBullet = FindObjectOfType<SpawnerBullet>();
-            _timeBtwShots = _startTimeBtwShots;
+            _timeBtwShots = StartTimeBtwShots;
         }
 
         private void Update()
         {
             if (_timeBtwShots <= 0f)
             {
-                if (Input.GetMouseButtonDown(0))
-                {
-                    _spawnerBullet.Shoot();
-                    _timeBtwShots = _startTimeBtwShots;
-                }
+                if (!Input.GetMouseButtonDown(0))
+                    return;
+                _spawnerBullet.Shoot();
+                _timeBtwShots = StartTimeBtwShots;
             }
             else
             {
@@ -35,14 +40,11 @@ namespace Player
 
         private void FixedUpdate()
         {
-            AimRotation();
-        }
-
-        private void AimRotation()
-        {
-            Vector3 aimDirection = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
+            if (isCameraNull) 
+                return;
+            var aimDirection = camera.ScreenToWorldPoint(Input.mousePosition) - transform.position;
             aimDirection.Normalize();
-            float aimCorner = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg - _offset;
+            var aimCorner = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg - Offset;
             transform.rotation = Quaternion.Euler(0f, 0f, aimCorner);
         }
     }

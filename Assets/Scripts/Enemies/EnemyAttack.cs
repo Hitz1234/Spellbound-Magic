@@ -18,26 +18,20 @@ namespace Enemies
 
         private void Update()
         {
-            if (!_isDamage)
-            {
-                _damageTime -= Time.deltaTime;
-                if (_damageTime <= 0f)
-                {
-                    _isDamage = true;
-                    _damageTime = timeToDamage;
-                }
-            }
+            if (_isDamage) return;
+            _damageTime -= Time.deltaTime;
+            if (!(_damageTime <= 0f)) return;
+            _isDamage = true;
+            _damageTime = timeToDamage;
         }
 
         private void OnCollisionStay2D(Collision2D other)
         {
-            PlayerHealth playerHealth = other.gameObject.GetComponent<PlayerHealth>();
+            var playerHealth = other.gameObject.GetComponent<PlayerHealth>();
 
-            if (playerHealth != null && _isDamage)
-            {
-                playerHealth.ReduceHealth(takingDamage);
-                _isDamage = false;
-            }
+            if (playerHealth == null || !_isDamage) return;
+            playerHealth.ReduceHealth(takingDamage);
+            _isDamage = false;
         }
     }
 }

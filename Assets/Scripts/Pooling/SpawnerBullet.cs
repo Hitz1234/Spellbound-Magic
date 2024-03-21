@@ -16,7 +16,7 @@ namespace Pooling
 
         public void Shoot()
         {
-            GameObject newBullet = _objectPool.GetObject(prefab);
+            var newBullet = _objectPool.GetObject(prefab);
             newBullet.transform.position = firePoint.position;
             newBullet.transform.rotation = firePoint.rotation;
         }

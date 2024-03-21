@@ -19,12 +19,11 @@ namespace Pooling
         private void Update()
         {
             timeSinceSpawn += Time.deltaTime;
-            if(timeSinceSpawn >= timeToSpawn) 
-            {
-                GameObject newMob = objectPool.GetObject(prefab);
-                newMob.transform.position = this.transform.position;
-                timeSinceSpawn = 0;
-            }
+            if (!(timeSinceSpawn >= timeToSpawn))
+                return;
+            var newMob = objectPool.GetObject(prefab);
+            newMob.transform.position = this.transform.position;
+            timeSinceSpawn = 0;
         }
     }
 }

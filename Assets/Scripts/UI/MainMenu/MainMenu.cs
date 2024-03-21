@@ -7,6 +7,7 @@ namespace UI.MainMenu
     {
         [SerializeField] private GameObject mainMenu;
         [SerializeField] private Animator mainMenuLeftAnimation;
+        private static readonly int OptionBtn = Animator.StringToHash("optionBtn");
 
         public void StartHandler()
         {
@@ -21,7 +22,7 @@ namespace UI.MainMenu
 
         public void OptionHandler()
         {
-            mainMenuLeftAnimation.SetTrigger("optionBtn");
+            mainMenuLeftAnimation.SetTrigger(OptionBtn);
         }
     }
 }

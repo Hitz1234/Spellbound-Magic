@@ -7,7 +7,7 @@ namespace UI.GameOver
     {
         public void RestartHandler()
         {
-            Scene scene = SceneManager.GetActiveScene();
+            var scene = SceneManager.GetActiveScene();
             SceneManager.LoadScene(scene.name);
             Time.timeScale = 1f;
         }

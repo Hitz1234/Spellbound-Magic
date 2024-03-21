@@ -11,6 +11,7 @@ namespace Player
 
         private float _vertical;
         private float _horizontal;
+        private static readonly int IsWalking = Animator.StringToHash("isWalking");
 
         private void Start()
         {
@@ -35,11 +36,11 @@ namespace Player
         {
             if (_vertical != 0 || _horizontal != 0)
             {
-                _animator.SetBool("isWalking", true);
+                _animator.SetBool(IsWalking, true);
             }
             else
             {
-                _animator.SetBool("isWalking", false);
+                _animator.SetBool(IsWalking, false);
             }
         }
     }

@@ -8,6 +8,7 @@ namespace Enemies
         [SerializeField] private Animator animator;
 
         private float _health;
+        private static readonly int TakeDamage = Animator.StringToHash("takeDamage");
 
         private void Start()
         {
@@ -17,7 +18,7 @@ namespace Enemies
         public void ReduceHealth(float damage)
         {
             _health -= damage;
-            animator.SetTrigger("takeDamage");
+            animator.SetTrigger(TakeDamage);
             if(_health <= 0 )
             {
                 Die();

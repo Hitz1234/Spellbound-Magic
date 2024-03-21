@@ -13,7 +13,7 @@ namespace Player
 
         private float _currentPlayerHealth;
 
-        public float TotalHealth { get => totalPlayerHealth; }
+        public float TotalHealth => totalPlayerHealth;
 
         private void Start()
         {

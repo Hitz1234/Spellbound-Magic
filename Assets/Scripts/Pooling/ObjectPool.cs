@@ -5,46 +5,40 @@ namespace Pooling
 {
     public class ObjectPool : MonoBehaviour
     {
-        private Dictionary<string, Queue<GameObject>> objectPool = new Dictionary<string, Queue<GameObject>>();
+        private readonly Dictionary<string, Queue<GameObject>> objectPool = new Dictionary<string, Queue<GameObject>>();
 
-        public GameObject GetObject(GameObject gameObject)
+        public GameObject GetObject(GameObject gameObj)
         {
-            if (objectPool.TryGetValue(gameObject.name, out Queue<GameObject> objectList))
-            {
-                if (objectList.Count == 0)
-                    return CreateNewObject(gameObject);
-                else
-                {
-                    GameObject _object = objectList.Dequeue();
-                    _object.SetActive(true);
-                    return _object;
-                }
-            }
-            else
-                return CreateNewObject(gameObject);
+            if (!objectPool.TryGetValue(gameObj.name, out var objectList)) 
+                return CreateNewObject(gameObj);
+            if (objectList.Count == 0)
+                return CreateNewObject(gameObj);
+            var obj = objectList.Dequeue();
+            obj.SetActive(true);
+            return obj;
         }
 
-        private GameObject CreateNewObject(GameObject gameObject)
+        private static GameObject CreateNewObject(GameObject gameObj)
         {
-            GameObject newGO = Instantiate(gameObject);
-            newGO.name = gameObject.name;
+            // ReSharper disable once InconsistentNaming
+            var newGO = Instantiate(gameObj);
+            newGO.name = gameObj.name;
             return newGO;
         }
 
-        public void ReturnGameObject(GameObject gameObject)
+        public void ReturnGameObject(GameObject gameObj)
         {
-            if(objectPool.TryGetValue(gameObject.name, out Queue<GameObject> objectList))
+            if(objectPool.TryGetValue(gameObj.name, out var objectList))
             {
-                objectList.Enqueue(gameObject);
+                objectList.Enqueue(gameObj);
             }
             else
             {
-                Queue<GameObject> newObjectQueue = new Queue<GameObject>();
-                newObjectQueue.Enqueue(gameObject);
-                objectPool.Add(gameObject.name, newObjectQueue);
+                var newObjectQueue = new Queue<GameObject>();
+                newObjectQueue.Enqueue(gameObj);
+                objectPool.Add(gameObj.name, newObjectQueue);
             }
-
-            gameObject.SetActive(false);
+            gameObj.SetActive(false);
         }
     }
 }

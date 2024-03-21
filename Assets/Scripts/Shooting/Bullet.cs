@@ -31,7 +31,7 @@ namespace Shooting
                 }
                 gameObject.SetActive(false);
             }
-            transform.Translate(Vector2.up * _speedBullet * Time.deltaTime);
+            transform.Translate(Vector2.up * (_speedBullet * Time.deltaTime));
         }
 
         private void BulletIsDeactive()
