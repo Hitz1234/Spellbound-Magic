@@ -19,7 +19,7 @@ namespace Player
             _animator = GetComponentInChildren<Animator>();
         }
 
-        private void FixedUpdate()
+        private void Update()
         {
             MovementLogic();
         }
@@ -28,8 +28,15 @@ namespace Player
         {
             _vertical = Input.GetAxis("Vertical");
             _horizontal = Input.GetAxis("Horizontal");
-            _playerRigidbody.velocity = new Vector2(_horizontal, _vertical).normalized * moveSpeed;
+
+            Vector2 moveDirection = new Vector2(_horizontal, _vertical).normalized;
+            _playerRigidbody.velocity = moveDirection * moveSpeed;
             WalkAnimation();
+
+            if (_vertical == 0 && _horizontal == 0)
+            {
+                _playerRigidbody.velocity = Vector2.zero;
+            }
         }
 
         private void WalkAnimation()
