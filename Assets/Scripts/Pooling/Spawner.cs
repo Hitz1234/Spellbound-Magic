@@ -6,11 +6,12 @@ namespace Pooling
     public class Spawner : MonoBehaviour
     {
         [SerializeField] private float timeToSpawn;
-        [SerializeField] private GameObject prefab;
+        [SerializeField] private GameObject[] enemyPrefabs;
     
         private ObjectPool objectPool;
 
         private float spawnRadius = 10f;
+
 
         private void Start()
         {
@@ -29,7 +30,8 @@ namespace Pooling
 
         private void SpawnObject()
         {
-            GameObject newMob = objectPool.GetObject(prefab);
+            GameObject randomEnemyPrefab = enemyPrefabs[Random.Range(0, enemyPrefabs.Length)];
+            GameObject newMob = objectPool.GetObject(randomEnemyPrefab);
             if(newMob != null)
             {
                 Vector3 spawnPosition = GetOffscreenSpawnPosition();
@@ -49,5 +51,7 @@ namespace Pooling
 
             return spawnPosition;
         }
+
+
     }
 }
